@@ -1,5 +1,5 @@
 # TLDR
-Hit `GET /v1/calculate-packaging?items=501` to see api response
+Run the application go to http://localhost:8081/swagger/index.html and click `Try it out` button to test the api.
 
 # API SETUP INSTRUCTIONS
 

@@ -14,17 +14,17 @@ type Handler struct {
 	packagingHandler *packaging.Handler
 }
 
-// NewHandler godoc
-// TODO REGENERATE THIS
-// @Summary Update order status
-// @Description Calculate order packaging
-// @Tags messages
+// NewHandler
+// @Summary Calculate order packaging
+// @Description Calculate the best packaging option for a given number of items
+// @Tags packaging
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} nil
-// @Failure 406 {object} error
-// @Failure 500 {object} error
-// @Router /messages/ [patch]
+// @Param items query int true "Number of items" minimum(1)
+// @Success 200 {array} packaging.Pack "List of packs"
+// @Failure 406 {object} error "Invalid input"
+// @Failure 500 {object} error "Internal server error"
+// @Router /v1/calculate-packaging [get]
 func NewHandler(logger log.Logger, packagingHandler *packaging.Handler) func(*gin.Context) {
 	return func(c *gin.Context) {
 		h := Handler{

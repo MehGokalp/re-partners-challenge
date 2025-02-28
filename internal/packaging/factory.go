@@ -2,6 +2,9 @@ package packaging
 
 func NewDefaultHandler() Handler {
 	return Handler{
+		// You can modify package sizes on your own
+		// As mentioned in the challenge, it could be fetched from query string
+		// But it's better to keep it hard coded for being more understandable
 		PackageSizes: DefaultPackageSizes,
 		Packers: []Packer{
 			&SmallPacker{Sizes: DefaultPackageSizes, SmallestSize: Small},

@@ -2,4 +2,4 @@ package meta
 
 type metaKey string
 
-const AppName = metaKey("insider-project")
+const AppName = metaKey("re-partners-challenge")

@@ -1,30 +1,32 @@
-# This project is rejected by reviewers
+# TLDR
+Hit `GET /v1/calculate-packaging?items=501` to see api response
 
-Here is the feedback:
-
-> We think it would be beneficial to further develop certain Go-specific topics, such as pointer usage, goroutine management, channel usage, concurrency structures, process control with context, graceful shutdown procedures, error handling and recovery mechanisms, and memory management.
-
-Not sure how to improve the project according to the feedback. I think the project is already using all the mentioned topics.
-
-Anyway I hope it will be helpful for someone.
-
-## API SETUP INSTRUCTIONS
+# API SETUP INSTRUCTIONS
 
 1. Clone the repository
 2. Run `docker compose up` to start the application
-3. Run `go run main.go populate` inside main container
-4. Hit http://localhost:8081 to access the application
-5. Hit http://localhost:8080/swagger/index.html to access Swagger API DOC
+3. Hit http://localhost:8081 to access the application
+4. Hit http://localhost:8080/swagger/index.html to access Swagger API DOC
 
-## HOW TO RUN MESSAGE ENGINE
-1. Log into the main container
-2. `/root/go/src/github.com/mehgokalp/insider-project/sbin/app engine:message`
 
-## HOW TO POPULATE DUMMY DATA
-1. Log into the main container
-2. `/root/go/src/github.com/mehgokalp/insider-project/sbin/app populate`
-
-## HOW TO RUN TESTS
+# HOW TO RUN TESTS
 ```go
 go test ./...
 ```
+
+# Weight Calculation
+For order size: `501`
+
+There are three options for packaging:
+1. 1x500 + 1x250
+2. 1x1000 (more items than necessary)
+3. 3x250 (more packs than necessary)
+
+For each case here is the math formula: `ΔQ = orderSize - ∑Quantity`, `ΔQ * PackSize`
+
+Results:
+1. `(ΔQ = 249) * 2 (package size) = 498`
+2. `(ΔQ = 499) * 1 = 499`
+3. `(ΔQ = 249) * 3 = 747`
+
+From the above results, the first option is the best choice.

@@ -4,14 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	_ "github.com/mehgokalp/insider-project/cmd/server/docs"
-	pkgMessageList "github.com/mehgokalp/insider-project/cmd/server/modules/message/list"
-	pkgMessageStartStop "github.com/mehgokalp/insider-project/cmd/server/modules/message/start_stop"
-	"github.com/mehgokalp/insider-project/pkg/config"
-	pkgDatabaseRepository "github.com/mehgokalp/insider-project/pkg/database/repository"
-	"github.com/mehgokalp/insider-project/pkg/log"
-	"github.com/mehgokalp/insider-project/pkg/meta"
-	pkgRedisRepository "github.com/mehgokalp/insider-project/pkg/redis/repository"
+	_ "github.com/mehgokalp/re-partners-challenge/cmd/server/docs"
+	pkgOrderPackaging "github.com/mehgokalp/re-partners-challenge/cmd/server/modules/order"
+	"github.com/mehgokalp/re-partners-challenge/internal/config"
+	"github.com/mehgokalp/re-partners-challenge/internal/log"
+	"github.com/mehgokalp/re-partners-challenge/internal/meta"
+	"github.com/mehgokalp/re-partners-challenge/internal/packaging"
 	"github.com/spf13/cobra"
 	"github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -20,15 +18,14 @@ import (
 
 // @title Messages API
 // @version 1.0
-// @description This is a sample server for managing messages.
+// @description This is a sample server for managing orders.
 // @host localhost:8081
 // @BasePath /v1
 
 func Server(
 	cfg *config.Config,
 	logger log.Logger,
-	messageRepository pkgDatabaseRepository.MessageRepository,
-	redisMessageEngineRepository pkgRedisRepository.RedisMessageEngineRepository,
+	packagingHandler *packaging.Handler,
 ) *cobra.Command {
 	cmdName := "server"
 
@@ -38,8 +35,7 @@ func Server(
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			r := getRouter(
 				logger,
-				messageRepository,
-				redisMessageEngineRepository,
+				packagingHandler,
 			)
 
 			if err := r.Run(fmt.Sprintf(":%v", cfg.Port)); err != nil {
@@ -53,8 +49,7 @@ func Server(
 
 func getRouter(
 	logger log.Logger,
-	messageRepository pkgDatabaseRepository.MessageRepository,
-	redisMessageEngineRepository pkgRedisRepository.RedisMessageEngineRepository,
+	packagingHandler *packaging.Handler,
 ) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.ErrorLogger())
@@ -65,8 +60,7 @@ func getRouter(
 
 	v1 := r.Group("/v1")
 
-	v1.GET("/messages/", pkgMessageList.NewHandler(logger, messageRepository))
-	v1.PATCH("/messages/", pkgMessageStartStop.NewHandler(logger, redisMessageEngineRepository))
+	v1.GET("/calculate-packaging/", pkgOrderPackaging.NewHandler(logger, packagingHandler))
 
 	return r
 }

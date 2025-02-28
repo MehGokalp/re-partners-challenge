@@ -45,9 +45,9 @@ paths:
     patch:
       consumes:
       - application/json
-      description: Update the status of the message engine
+      description: Update the status of the order engine
       parameters:
-      - description: Action to start or stop the message engine
+      - description: Action to start or stop the order engine
         in: body
         name: action
         required: true
@@ -64,7 +64,7 @@ paths:
         "500":
           description: Internal Server Error
           schema: {}
-      summary: Update message status
+      summary: Update order status
       tags:
       - messages
 swagger: "2.0"

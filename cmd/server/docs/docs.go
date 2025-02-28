@@ -41,7 +41,7 @@ const docTemplate = `{
                 }
             },
             "patch": {
-                "description": "Update the status of the message engine",
+                "description": "Update the status of the order engine",
                 "consumes": [
                     "application/json"
                 ],
@@ -51,10 +51,10 @@ const docTemplate = `{
                 "tags": [
                     "messages"
                 ],
-                "summary": "Update message status",
+                "summary": "Update order status",
                 "parameters": [
                     {
-                        "description": "Action to start or stop the message engine",
+                        "description": "Action to start or stop the order engine",
                         "name": "action",
                         "in": "body",
                         "required": true,

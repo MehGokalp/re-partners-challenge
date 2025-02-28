@@ -75,7 +75,11 @@ const docTemplate = `{
         "packaging.PackageSize": {
             "type": "integer",
             "enum": [
-                250
+                250,
+                500,
+                1000,
+                2000,
+                5000
             ],
             "x-enum-varnames": [
                 "Small"

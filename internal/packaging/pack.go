@@ -3,6 +3,7 @@ package packaging
 import (
 	"github.com/rotisserie/eris"
 	"sort"
+	"sync"
 )
 
 func (h *Handler) Pack(orderSize int) ([]Pack, error) {
@@ -11,14 +12,21 @@ func (h *Handler) Pack(orderSize int) ([]Pack, error) {
 	}
 
 	var stacks []PackStack
+	wg := sync.WaitGroup{}
+	wg.Add(len(h.Packers))
 
 	for _, packer := range h.Packers {
-		stack := packer.Pack(orderSize)
+		go func() {
+			defer wg.Done()
+			stack := packer.Pack(orderSize)
 
-		if stack != nil {
-			stacks = append(stacks, stack)
-		}
+			if stack != nil {
+				stacks = append(stacks, stack)
+			}
+		}()
 	}
+
+	wg.Wait()
 
 	if len(stacks) == 0 {
 		return nil, eris.New("no packer found")

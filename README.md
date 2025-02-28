@@ -1,5 +1,11 @@
+# This assignment rejected by its reviewers
+
+They didn't share feedback why, but you can check `code_challenge.pdf` file to see the requirements and code.
+
+I found a new mathematical expression to solve issue in the easiest way. You can investigate it on below.
+
 # TLDR
-Hit `GET /v1/calculate-packaging?items=501` to see api response
+Run the application go to http://localhost:8081/swagger/index.html and click `Try it out` button to test the api.
 
 # API SETUP INSTRUCTIONS
 

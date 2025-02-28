@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/mehgokalp/re-partners-challenge/cmd/server"
-	"github.com/mehgokalp/re-partners-challenge/internal/config"
+	"github.com/mehgokalp/re-partners-challenge/config"
 	"github.com/mehgokalp/re-partners-challenge/internal/log"
 	"github.com/mehgokalp/re-partners-challenge/internal/packaging"
 	"github.com/rotisserie/eris"

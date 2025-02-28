@@ -14,6 +14,12 @@ Hit `GET /v1/calculate-packaging?items=501` to see api response
 go test ./...
 ```
 
+# Swagger & Testing UI
+
+Run the application then hit http://localhost:8081/swagger/index.html to access Swagger API DOC
+
+You can simply test api responses using swagger documentations. Click on endpoint and hit `Try it out` button to test the api.
+
 # Weight Calculation
 For order size: `501`
 

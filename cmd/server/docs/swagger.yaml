@@ -3,6 +3,7 @@ definitions:
     properties:
       quantity:
         type: integer
+        default: 1
       size:
         $ref: '#/definitions/packaging.PackageSize'
     type: object

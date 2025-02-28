@@ -15,9 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/messages/": {
+        "/v1/calculate-packaging": {
             "get": {
-                "description": "Get all messages",
+                "description": "Calculate the best packaging option for a given number of items",
                 "consumes": [
                     "application/json"
                 ],
@@ -25,54 +25,35 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "messages"
+                    "packaging"
                 ],
-                "summary": "List messages",
+                "summary": "Calculate order packaging",
+                "parameters": [
+                    {
+                        "minimum": 1,
+                        "type": "integer",
+                        "description": "Number of items",
+                        "name": "items",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "List of packs",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/list.Message"
+                                "$ref": "#/definitions/packaging.Pack"
                             }
                         }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Update the status of the message engine",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "messages"
-                ],
-                "summary": "Update message status",
-                "parameters": [
-                    {
-                        "description": "Action to start or stop the message engine",
-                        "name": "action",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/start_stop.startStopForm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "202": {
-                        "description": "Accepted"
                     },
                     "406": {
-                        "description": "Not Acceptable",
+                        "description": "Invalid input",
                         "schema": {}
                     },
                     "500": {
-                        "description": "Internal Server Error",
+                        "description": "Internal server error",
                         "schema": {}
                     }
                 }
@@ -80,40 +61,29 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "list.Message": {
+        "packaging.Pack": {
             "type": "object",
             "properties": {
-                "content": {
-                    "type": "string"
-                },
-                "id": {
+                "quantity": {
                     "type": "integer"
                 },
-                "sent": {
-                    "type": "boolean"
-                },
-                "sent_at": {
-                    "type": "string"
-                },
-                "to": {
-                    "type": "string"
+                "size": {
+                    "$ref": "#/definitions/packaging.PackageSize"
                 }
             }
         },
-        "start_stop.startStopForm": {
-            "type": "object",
-            "required": [
-                "action"
+        "packaging.PackageSize": {
+            "type": "integer",
+            "enum": [
+                250,
+                500,
+                1000,
+                2000,
+                5000
             ],
-            "properties": {
-                "action": {
-                    "type": "string",
-                    "enum": [
-                        "start",
-                        "stop"
-                    ]
-                }
-            }
+            "x-enum-varnames": [
+                "Small"
+            ]
         }
     }
 }`

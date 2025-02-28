@@ -14,9 +14,9 @@ RUN go build -o ./sbin/app .
 
 FROM alpine:edge
 
-COPY --from=build /src /root/go/src/github.com/mehgokalp/insider-project
+COPY --from=build /src /root/go/src/github.com/mehgokalp/re-partners-challenge
 
 EXPOSE 8080
 
 # Run the binary program produced by `go install`
-CMD ["/root/go/src/github.com/mehgokalp/insider-project/sbin/app", "server"]
+CMD ["/root/go/src/github.com/mehgokalp/re-partners-challenge/sbin/app", "server"]

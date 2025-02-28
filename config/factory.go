@@ -18,16 +18,7 @@ func New() *Config {
 	}
 
 	return &Config{
-		Mysql: Mysql{
-			DSN: os.Getenv("MYSQL_DSN"),
-		},
-		Redis: Redis{
-			DSN: os.Getenv("REDIS_DSN"),
-		},
 		Port: parsedPort,
 		Env:  os.Getenv("ENV"),
-		MessageProvider: MessageProvider{
-			BaseUrl: os.Getenv("MESSAGE_PROVIDER_BASE_URL"),
-		},
 	}
 }

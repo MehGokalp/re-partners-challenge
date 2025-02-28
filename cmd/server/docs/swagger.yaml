@@ -1,70 +1,53 @@
 definitions:
-  list.Message:
+  packaging.Pack:
     properties:
-      content:
-        type: string
-      id:
+      quantity:
         type: integer
-      sent:
-        type: boolean
-      sent_at:
-        type: string
-      to:
-        type: string
+        default: 1
+      size:
+        $ref: '#/definitions/packaging.PackageSize'
     type: object
-  start_stop.startStopForm:
-    properties:
-      action:
-        enum:
-        - start
-        - stop
-        type: string
-    required:
-    - action
-    type: object
+  packaging.PackageSize:
+    enum:
+    - 250
+    - 500
+    - 1000
+    - 2000
+    - 5000
+    type: integer
+    x-enum-varnames:
+    - Small
 info:
   contact: {}
 paths:
-  /messages/:
+  /v1/calculate-packaging:
     get:
       consumes:
       - application/json
-      description: Get all messages
+      description: Calculate the best packaging option for a given number of items
+      parameters:
+      - description: Number of items
+        in: query
+        minimum: 1
+        name: items
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: List of packs
           schema:
             items:
-              $ref: '#/definitions/list.Message'
+              $ref: '#/definitions/packaging.Pack'
             type: array
-      summary: List messages
-      tags:
-      - messages
-    patch:
-      consumes:
-      - application/json
-      description: Update the status of the message engine
-      parameters:
-      - description: Action to start or stop the message engine
-        in: body
-        name: action
-        required: true
-        schema:
-          $ref: '#/definitions/start_stop.startStopForm'
-      produces:
-      - application/json
-      responses:
-        "202":
-          description: Accepted
         "406":
-          description: Not Acceptable
+          description: Invalid input
           schema: {}
         "500":
-          description: Internal Server Error
+          description: Internal server error
           schema: {}
-      summary: Update message status
+      summary: Calculate order packaging
       tags:
-      - messages
+      - packaging
 swagger: "2.0"
